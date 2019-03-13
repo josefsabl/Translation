@@ -124,7 +124,7 @@ class TranslationExtension extends \Nette\DI\CompilerExtension
 
         if ($config['debugger'] && interface_exists(IBarPanel::class)) {
             $builder->addDefinition($this->prefix('panel'))
-                ->setClass(Panel::class, [dirname(Helpers::expand('%appDir%', $builder->parameters))])
+                ->setFactory(Panel::class, [dirname(Helpers::expand('%appDir%', $builder->parameters))])
                 ->addSetup('setLocaleWhitelist', [$config['whitelist']]);
 
             $translator->addSetup('?->register(?)', [$this->prefix('@panel'), '@self']);

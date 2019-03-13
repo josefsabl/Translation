@@ -18,41 +18,41 @@ use Nette\Caching\Cache;
 class PhpFileStorage extends \Nette\Caching\Storages\FileStorage implements \Nette\Caching\IStorage
 {
 
-	/**
-	 * @var string
-	 */
-	public $hint;
+    /**
+     * @var string
+     */
+    public $hint;
 
-	/**
-	 * Reads cache data from disk.
-	 *
-	 * @param array $meta
-	 * @return mixed
-	 */
-	protected function readData($meta)
-	{
-		return [
-			'file' => $meta[self::FILE],
-			'handle' => $meta[self::HANDLE],
-		];
-	}
+    /**
+     * Reads cache data from disk.
+     *
+     * @param array $meta
+     * @return mixed
+     */
+    protected function readData($meta)
+    {
+        return [
+            'file' => $meta['file'],
+            'handle' => $meta['handle'],
+        ];
+    }
 
-	/**
-	 * Returns file name.
-	 *
-	 * @param string $key
-	 * @return string
-	 */
-	protected function getCacheFile($key)
-	{
-		$cacheKey = substr_replace(
-			$key,
-			trim(strtr($this->hint, '\\/@', '.._'), '.') . '-',
-			strpos($key, Cache::NAMESPACE_SEPARATOR) + 1,
-			0
-		);
+    /**
+     * Returns file name.
+     *
+     * @param string $key
+     * @return string
+     */
+    protected function getCacheFile($key): string
+    {
+        $cacheKey = substr_replace(
+            $key,
+            trim(strtr($this->hint, '\\/@', '.._'), '.') . '-',
+            strpos($key, Cache::NAMESPACE_SEPARATOR) + 1,
+            0
+        );
 
-		return parent::getCacheFile($cacheKey) . '.php';
-	}
+        return parent::getCacheFile($cacheKey) . '.php';
+    }
 
 }
